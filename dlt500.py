@@ -46,19 +46,21 @@ class BaseHTMLProcessor(SGMLParser):
 		extract = "".join(self.pieces)
 
 		print extract
+# 超级大乐透 第  期   开奖日期：
 		m = re.search("<table>([^<]+)<tr>\s+<td>\s+<span><a>([^<]+)<font><strong>([^<]+)<span>([^<]+)<tr>", extract)
 		print m.group(1), m.group(2), m.group(3), m.group(4)
 
+#开奖号码：
 		m = re.search("<td>([^<]+)<td>\s+<div>\s+<ul>\s+<li>(\d{2})[^<]+<li>(\d{2})[^<]+<li>(\d{2})[^<]+<li>(\d{2})[^<]+<li>(\d{2})[^<]+<li>(\d{2})[^<]+<li>(\d{2})", extract)
 		print m.group(1), m.group(2), m.group(3),m.group(4), m.group(5), m.group(6),m.group(7), m.group(8)
-
-		m = re.search("<li>\d{2}\s+<tr>[^<]+<td>([^<]+)<td>([^<]+)", extract)
+#出球顺序：
+		m = re.search("<li>\d{2}\s+<tr>[^<]+<td>([^<]+)<td>([^<]+)", extract) 
 		print m.group(1), m.group(2)
-
-		m = re.search("<tr>[^<]+<td>([^<]+)<span>([^<]+)<span>([^<]+)", extract)
+#本期销量： 奖池滚存：
+		m = re.search("<tr>[^<]+<td>([^<]+)<span>([^<]+)<span>([^<]+)", extract) 
 		print m.group(1), m.group(2), m.group(3)
 
-
+#奖项
 		p = re.compile("<tr>[^<]+<td>([^<]+)<td>([^<]+)<td>([^<]+)<td>([^<]+)\s+<tr>[^<]+<td>([^<]+)<td>([^<]+)<td>([^<]+)")
 		m = p.search(extract, 1)
 		print m.group(1), m.group(2), m.group(3),m.group(4), m.group(5), m.group(6), m.group(7)
