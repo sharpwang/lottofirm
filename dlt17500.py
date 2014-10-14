@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column, String, Integer, create_engine
+from sqlalchemy import Column, String, Integer, create_engine, exc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import urllib2
@@ -62,7 +62,7 @@ session = DBSession()
 response = urllib2.urlopen('http://www.17500.cn/getData/dlt.TXT', timeout=10)
 html = response.read()
 data = html.split('\n')
-for line in data:
+for line in reversed(data):
     record = line.split(' ')
     if(len(record) > 7):
         dlt = Tdlt()
@@ -75,7 +75,48 @@ for line in data:
         dlt.qq5     = record[6]
         dlt.hq1     = record[7]
         dlt.hq2     = record[8]
+        dlt.tzze    = record[9] 
+        dlt.grxq    = record[10] 
+        dlt.zj1     = record[11] 
+        dlt.jj1     = record[12] 
+        dlt.zj2     = record[13] 
+        dlt.jj2     = record[14] 
+        dlt.zj3     = record[15] 
+        dlt.jj3     = record[16] 
+        dlt.zj4     = record[17] 
+        dlt.jj4     = record[18] 
+        dlt.zj5     = record[19] 
+        dlt.jj5     = record[20] 
+        dlt.zj6     = record[21] 
+        dlt.jj6     = record[22] 
+        dlt.zj7     = record[23] 
+        dlt.jj7     = record[24] 
+        dlt.zj8     = record[25] 
+        dlt.jj8     = record[26] 
+        dlt.zjzj1   = record[27] 
+        dlt.zjjj1   = record[28] 
+        dlt.zjzj2   = record[29] 
+        dlt.zjjj2   = record[30] 
+        dlt.zjzj3   = record[31] 
+        dlt.zjjj3   = record[32] 
+        dlt.fjwftze = record[33] 
+        dlt.fjwfzj1 = record[34] 
+        dlt.fjwfjj1 = record[35] 
         session.add(dlt)
+        try:
+            session.commit()
+        except exc.IntegrityError:
+            #最新的一条都要插进去，或者更新
+            try:
+                session.rollback()
+                session.merge(dlt)
+                session.commit()
+            except exc.SQLAlchemyError:
+                pass
+            ＃这里加上break就会只更新最后一条
+            break
+        else:
+            pass
 
 session.commit()
 session.close()
