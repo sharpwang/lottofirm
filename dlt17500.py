@@ -113,7 +113,7 @@ for line in reversed(data):
                 session.commit()
             except exc.SQLAlchemyError:
                 pass
-            ＃这里加上break就会只更新最后一条
+            #这里加上break就会只更新最后一条
             break
         else:
             pass
