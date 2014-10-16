@@ -5,7 +5,8 @@ from sqlalchemy import Column, String, Integer, create_engine, exc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import urllib2
-
+import json
+from mytools import AlchemyEncoder
 # 创建对象的基类:
 Base = declarative_base()
 
@@ -52,17 +53,15 @@ class Tdlt(Base):
     fjwfzj1 = Column(Integer) 
     fjwfjj1 = Column(Integer) 
 
-
-
-
-def flash_data():
     # 初始化数据库连接:
-    engine = create_engine('mysql+mysqlconnector://root:wang3@lottofirm.net:3306/lottofirm')
-    # 创建DBSession类型:
-    DBSession = sessionmaker(bind=engine)
-    # 创建session对象:
-    session = DBSession()
+engine = create_engine('mysql+mysqlconnector://root:wang3@lottofirm.net:3306/lottofirm')
+# 创建DBSession类型:
+DBSession = sessionmaker(bind=engine)
 
+#从17500取最新开奖信息存到数据库
+def retrieve_data():
+# 创建session对象:
+    session = DBSession()
     response = urllib2.urlopen('http://www.17500.cn/getData/dlt.TXT', timeout=10)
     html = response.read()
     data = html.split('\n')
@@ -126,8 +125,17 @@ def flash_data():
     session.close()
 
 
+# 分发最新50期数据给用户
+def dispatch_data(qh):
+# 创建session对象:
+    session = DBSession()
+    data = session.query(Tdlt).filter(Tdlt.qh >= qh).all()
+    session.close()
+    return json.dumps(data, cls = AlchemyEncoder)
+
 if __name__=='__main__':
-    flash_data()
+    retrieve_data()
+
 
 # 0 14120
 # 1 2014-10-13
