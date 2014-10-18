@@ -13,7 +13,7 @@ Base = declarative_base()
 # 定义Tdlt对象:
 class Tdlt(Base):
     # 表的名字:
-    __tablename__ = 't-dlt'
+    __tablename__ = 'DLT'
 
     # 表的结构:
     qh      = Column(Integer, primary_key=True)
