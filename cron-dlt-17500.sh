@@ -1,3 +1,2 @@
-#!/bin/sh
-pyenv activate env278
-python /home/ethan/Python/lottofirm/dlt17500.py 
+#!/bin/bash
+/home/ethan/.pyenv/versions/env278/bin/python /home/ethan/Python/lottofirm/dlt17500.py
