@@ -6,7 +6,7 @@ from urlparse import urljoin
 import urllib2
 import sqlite3
 import smtplib
-import trackback
+import traceback
 from email.mime.text import MIMEText  
 
 def get_content_url(home_url):
@@ -20,7 +20,7 @@ def get_content_url(home_url):
         url = urljoin(blog, rel)
         return url, title
     except Exception, e:
-        trackback.print_exc()
+        traceback.print_exc()
         print 'get content url failed'
 
 def get_content_body(url):
@@ -31,7 +31,7 @@ def get_content_body(url):
         content = soup.select('#first')[0].encode('utf-8')
         return content
     except Exception, e:
-        trackback.print_exc()
+        traceback.print_exc()
         print 'get content failed'
 
 def load_log(file, url):
@@ -48,7 +48,7 @@ def load_log(file, url):
         rows = cur.fetchall()
         return len(rows)
     except Exception, e:
-        trackback.print_exc()
+        traceback.print_exc()
         print 'load log failed'
         return 0
     finally:
@@ -70,7 +70,7 @@ def send_message(recipients, subject, body):
         smtp.sendmail(sender, recipients, msg.as_string())
         return True
     except Exception, e:
-        trackback.print_exc()
+        traceback.print_exc()
         print 'send mail failed'
         return False
     finally:
@@ -84,7 +84,7 @@ def save_log(file, url, title):
         conn.execute(stmt)
         conn.commit()
     except Exception, e:
-        trackback.print_exc()
+        traceback.print_exc()
         print 'save to log failed'
     finally:
         conn.close()
