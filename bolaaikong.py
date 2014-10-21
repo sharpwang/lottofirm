@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 from urlparse import urljoin
 import urllib2
 import sqlite3
-import smtplib  
+import smtplib
+import trackback
 from email.mime.text import MIMEText  
 
 def get_content_url(home_url):
@@ -18,7 +19,8 @@ def get_content_url(home_url):
         title = a['title'].encode('utf-8')
         url = urljoin(blog, rel)
         return url, title
-    except:
+    except Exception, e:
+        trackback.print_exc()
         print 'get content url failed'
 
 def get_content_body(url):
@@ -28,7 +30,8 @@ def get_content_body(url):
         soup = BeautifulSoup(html)
         content = soup.select('#first')[0].encode('utf-8')
         return content
-    except:
+    except Exception, e:
+        trackback.print_exc()
         print 'get content failed'
 
 def load_log(file, url):
@@ -44,7 +47,8 @@ def load_log(file, url):
         cur = conn.execute(stmt)
         rows = cur.fetchall()
         return len(rows)
-    except:
+    except Exception, e:
+        trackback.print_exc()
         print 'load log failed'
         return 0
     finally:
@@ -58,14 +62,15 @@ def send_message(recipients, subject, body):
         sender = 'websecret@126.com'
         
         username = 'websecret@126.com'
-        password = 'Message888'      
+        password = 'Message888'
         msg = MIMEText(body,'html','utf-8')
         msg['Subject'] = subject      
         smtp.docmd('ehlo','websecret@126.com')
         smtp.login(username, password)
         smtp.sendmail(sender, recipients, msg.as_string())
         return True
-    except:
+    except Exception, e:
+        trackback.print_exc()
         print 'send mail failed'
         return False
     finally:
@@ -78,7 +83,8 @@ def save_log(file, url, title):
         print stmt
         conn.execute(stmt)
         conn.commit()
-    except:
+    except Exception, e:
+        trackback.print_exc()
         print 'save to log failed'
     finally:
         conn.close()
