@@ -59,7 +59,7 @@ def load_log(file, url):
         conn.close()
 
 def send_message(recipients, subject, body):
-    mailboxs = [{'smtp' : 'smtp.google.com', 'port' : 465, 'user' : 'wang081109@gmail.com', 'pass' : 'wang091109', 'tls' : True}]
+    mailboxs = [{'smtp' : 'smtp.zoho.com', 'port' : 587, 'user' : 'sharpwang@live.com', 'pass' : 'wang333333', 'tls' : True}]
     msg = MIMEText(body,'html','utf-8')
     password = 'Message888'
     msg['Subject'] = subject
