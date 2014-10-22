@@ -69,7 +69,7 @@ def send_message(recipients, subject, body):
         password = 'Message888'
         msg = MIMEText(body,'html','utf-8')
         msg['Subject'] = subject      
-        smtp.docmd('ehlo','websecret@126.com')
+        smtp.docmd('ehlo','websecret2@126.com')
         smtp.login(username, password)
         smtp.sendmail(sender, recipients, msg.as_string())
         return True
