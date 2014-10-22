@@ -63,9 +63,9 @@ def send_message(recipients, subject, body):
         smtpserver = 'smtp.126.com'
         smtp = smtplib.SMTP(smtpserver)
 
-        sender = 'websecret@126.com'
+        sender = 'websecret2@126.com'
         
-        username = 'websecret@126.com'
+        username = 'websecret2@126.com'
         password = 'Message888'
         msg = MIMEText(body,'html','utf-8')
         msg['Subject'] = subject      
