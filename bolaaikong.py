@@ -71,7 +71,7 @@ def send_message(recipients, subject, body):
         try:
             smtp_connect = lambda ssl, server: smtplib.SMTP_SSL(server) if ssl else smtplib.SMTP(server)
             smtp = smtp_connect(mailbox['ssl'],smtpserver)
-            smtp.set_debuglevel(1)
+            #smtp.set_debuglevel(1)
             if mailbox['tls'] == True:
                 smtp.ehlo()
                 smtp.starttls()
