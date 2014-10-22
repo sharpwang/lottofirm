@@ -60,15 +60,11 @@ def load_log(file, url):
 
 def send_message(recipients, subject, body):
     try:
-        smtpserver = 'smtp.126.com'
-        smtp = smtplib.SMTP(smtpserver)
-        sender = 'websecret2@126.com'
-        username = 'websecret2@126.com'
-        password = 'Message888'
+        smtp = smtplib.SMTP('localhost')
         msg = MIMEText(body,'html','utf-8')
-        msg['Subject'] = subject      
-        smtp.docmd('ehlo','websecret2@126.com')
-        smtp.login(username, password)
+        msg['Subject'] = subject
+        msg['From'] = 'websecret2@126.com'
+        msg['To'] = ",".join(recipients)
         smtp.sendmail(sender, recipients, msg.as_string())
         return True
     except Exception, e:
