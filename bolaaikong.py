@@ -61,7 +61,6 @@ def load_log(file, url):
 def send_message(recipients, subject, body):
     mailboxs = [{'smtp' : 'mail.gmx.com', 'port' : 587, 'user' : 'wangzhen@gmx.com', 'pass' : 'miAujv8R', 'tls' : True}]
     msg = MIMEText(body,'html','utf-8')
-    password = 'Message888'
     msg['Subject'] = subject
     for mailbox in mailboxs:
         smtpserver = mailbox['smtp']
@@ -70,7 +69,7 @@ def send_message(recipients, subject, body):
         password = mailbox['pass']
         try:
             smtp = smtplib.SMTP(smtpserver)
-            stmp.set_debuglevel(1)
+            #smtp.set_debuglevel(1)
             if mailbox['tls'] == True:
                 smtp.ehlo()
                 smtp.starttls()
@@ -78,7 +77,7 @@ def send_message(recipients, subject, body):
             smtp.login(sender, password)
             smtp.sendmail(sender, recipients, msg.as_string())
             smtp.quit()
-            print "send mail using " + sender + " succeed"
+            #print "send mail using " + sender + " succeed"
             return True
         except Exception, e:
             traceback.print_exc()
