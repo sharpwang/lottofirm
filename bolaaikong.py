@@ -62,9 +62,7 @@ def send_message(recipients, subject, body):
     try:
         smtpserver = 'smtp.126.com'
         smtp = smtplib.SMTP(smtpserver)
-
         sender = 'websecret2@126.com'
-        
         username = 'websecret2@126.com'
         password = 'Message888'
         msg = MIMEText(body,'html','utf-8')
@@ -84,11 +82,11 @@ def save_log(file, url, title):
     try:
         conn = sqlite3.connect(file)
         stmt = "INSERT INTO LOG VALUES('%s', '%s')" % (url, title)
-        print stmt
         conn.execute(stmt)
         conn.commit()
     except Exception, e:
         traceback.print_exc()
+        print stmt
         print 'save to log failed'
     finally:
         conn.close()
@@ -104,12 +102,12 @@ log = 'log.db'
 #看看这条博客是不是已经发送过了
 row = load_log(log, url)
 if row > 0:
-    print 'mail already sent do not send again'
+    #print 'mail already sent do not send again'
 else:
     recipients = ['831261@qq.com','20891206@qq.com','13619633@qq.com']
     #没有发送过，发送内容到上述地址
     if send_message(recipients, title, content) == True:
-        print 'send a messge to recipients'
+        #print 'send a messge to recipients'
         save_log(log, url, title)
 
 
