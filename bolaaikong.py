@@ -105,6 +105,7 @@ else:
     recipients = ['831261@qq.com','20891206@qq.com','13619633@qq.com']
     #没有发送过，发送内容到上述地址
     if send_message(recipients, title, content) == True:
+        print 'send a messge to recipients'
         save_log(log, url, title)
-    print 'send a messge to recipients done!'
+
 
