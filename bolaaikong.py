@@ -59,7 +59,7 @@ def load_log(file, url):
         conn.close()
 
 def send_message(recipients, subject, body):
-    maiboxs = [{'smtp' : 'smtp.google.com', 'port' : 465, 'user' : 'wang081109@gmail.com', 'pass' : 'wang091109', 'tls' : True}]
+    mailboxs = [{'smtp' : 'smtp.google.com', 'port' : 465, 'user' : 'wang081109@gmail.com', 'pass' : 'wang091109', 'tls' : True}]
     msg = MIMEText(body,'html','utf-8')
     password = 'Message888'
     msg['Subject'] = subject
@@ -70,19 +70,20 @@ def send_message(recipients, subject, body):
         password = mailbox['pass']
         try:
             smtp = smtplib.SMTP(smtpserver)
+            stmp.set_debuglevel(1)
             if mailbox['tls'] == True:
                 smtp.ehlo()
                 smtp.starttls()
                 smtp.ehlo()
             smtp.login(sender, password)
             smtp.sendmail(sender, recipients, msg.as_string())
+            smtp.quit()
             print "send mail using " + sender + " succeed"
             return True
-        except:
+        except Exception, e:
+            traceback.print_exc()
             print "send mail using " + sender + " failed"
             continue
-        finally:
-            smtp.quit()
     return False
 
 def save_log(file, url, title):
