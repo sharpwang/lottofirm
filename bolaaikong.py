@@ -102,6 +102,7 @@ log = 'log.db'
 #看看这条博客是不是已经发送过了
 row = load_log(log, url)
 if row > 0:
+    pass
     #print 'mail already sent do not send again'
 else:
     recipients = ['831261@qq.com','20891206@qq.com','13619633@qq.com']
