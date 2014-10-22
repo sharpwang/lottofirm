@@ -59,17 +59,21 @@ def load_log(file, url):
         conn.close()
 
 def send_message(recipients, subject, body):
-    maiboxs = ['websecret0@126.com','websecret1@126.com','websecret2@126.com', \
-            'websecret3@163.com','websecret4@163.com','websecret5@163.com', \
-            'websecret6@sohu.com','websecret7@sina.com','websecret8@tom.com']
+    maiboxs = [{'smtp' : 'smtp.google.com', 'port' : 465, 'user' : 'wang081109@gmail.com', 'pass' : 'wang091109', 'tls' : True}]
     msg = MIMEText(body,'html','utf-8')
     password = 'Message888'
     msg['Subject'] = subject
-    for sender in mailboxs:
-        smtpserver = 'smtp.' + sender.split('@')[1]
+    for mailbox in mailboxs:
+        smtpserver = mailbox['smtp']
+        port = mailbox['port']
+        sender = mailbox['user']
+        password = mailbox['pass']
         try:
             smtp = smtplib.SMTP(smtpserver)
-            smtp.docmd('ehlo', sender)
+            if mailbox['tls'] == True:
+                smtp.ehlo()
+                smtp.starttls()
+                smtp.ehlo()
             smtp.login(sender, password)
             smtp.sendmail(sender, recipients, msg.as_string())
             print "send mail using " + sender + " succeed"
