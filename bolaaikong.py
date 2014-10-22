@@ -59,8 +59,8 @@ def load_log(file, url):
         conn.close()
 
 def send_message(recipients, subject, body):
-    #mailboxs = [{'smtp' : 'mail.gmx.com', 'port' : 587, 'user' : 'wangzhen@gmx.com', 'pass' : 'miAujv8R', 'tls' : True}, \
-    mailboxs = [{'smtp' : 'my.inbox.com', 'port' : 465, 'user' : 'wangzhen@inbox.com', 'pass': 'Duv7irYd', 'tls' : True}]
+    #mailboxs = [{'smtp' : 'mail.gmx.com', 'port' : 587, 'user' : 'wangzhen@gmx.com', 'pass' : 'miAujv8R', 'tls' : True}, 'ssl' : False \
+    mailboxs = [{'smtp' : 'my.inbox.com', 'port' : 465, 'user' : 'wangzhen@inbox.com', 'pass': 'Duv7irYd', 'tls' : False, 'ssl' : True}]
     msg = MIMEText(body,'html','utf-8')
     msg['Subject'] = subject
     for mailbox in mailboxs:
@@ -69,7 +69,9 @@ def send_message(recipients, subject, body):
         sender = mailbox['user']
         password = mailbox['pass']
         try:
-            smtp = smtplib.SMTP(smtpserver)
+            #smtp = smtplib.SMTP(smtpserver)
+            smtp_connect = lambda ssl, server: smtplib.SMTP(server) if ssl else smtplib.SMTP(server)
+            smtp = smtp_connect(mailbox['ssl'])
             smtp.set_debuglevel(1)
             if mailbox['tls'] == True:
                 smtp.ehlo()
