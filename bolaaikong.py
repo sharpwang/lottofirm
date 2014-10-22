@@ -63,7 +63,8 @@ def send_message(recipients, subject, body):
         smtp = smtplib.SMTP('localhost')
         msg = MIMEText(body,'html','utf-8')
         msg['Subject'] = subject
-        msg['From'] = 'websecret2@126.com'
+        sender = 'websecret2@126.com'
+        msg['From'] = sender
         msg['To'] = ",".join(recipients)
         smtp.sendmail(sender, recipients, msg.as_string())
         return True
