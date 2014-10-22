@@ -9,6 +9,10 @@ import smtplib
 import traceback
 from email.mime.text import MIMEText  
 
+import sys 
+reload(sys) 
+sys.setdefaultencoding('utf8')   
+
 def get_content_url(home_url):
     try:
         response = urllib2.urlopen(home_url, timeout=30)
