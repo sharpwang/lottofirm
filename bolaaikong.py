@@ -59,21 +59,27 @@ def load_log(file, url):
         conn.close()
 
 def send_message(recipients, subject, body):
-    try:
-        smtp = smtplib.SMTP('localhost')
-        msg = MIMEText(body,'html','utf-8')
-        msg['Subject'] = subject
-        sender = 'websecret2@126.com'
-        msg['From'] = sender
-        msg['To'] = ",".join(recipients)
-        smtp.sendmail(sender, recipients, msg.as_string())
-        return True
-    except Exception, e:
-        traceback.print_exc()
-        print 'send mail failed'
-        return False
-    finally:
-        smtp.quit()
+    maiboxs = ['websecret0@126.com','websecret1@126.com','websecret2@126.com', \
+            'websecret3@163.com','websecret4@163.com','websecret5@163.com', \
+            'websecret6@sohu.com','websecret7@sina.com','websecret8@tom.com']
+    msg = MIMEText(body,'html','utf-8')
+    password = 'Message888'
+    msg['Subject'] = subject
+    for sender in mailboxs:
+        smtpserver = 'smtp.' + sender.split('@')[1]
+        try:
+            smtp = smtplib.SMTP(smtpserver)
+            smtp.docmd('ehlo', sender)
+            smtp.login(sender, password)
+            smtp.sendmail(sender, recipients, msg.as_string())
+            print "send mail using " + sender + " succeed"
+            return True
+        except:
+            print "send mail using " + sender + " failed"
+            continue
+        finally:
+            smtp.quit()
+    return False
 
 def save_log(file, url, title):
     try:
